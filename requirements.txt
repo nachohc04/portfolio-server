@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+databases
+aiosqlite
+passlib[bcrypt]
+aiofiles
+pytest
+httpx
+pytest-asyncio
+pydantic
