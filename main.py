@@ -5,6 +5,7 @@ from database.db import create_db_and_tables
 from contextlib import asynccontextmanager
 
 from projects.endpoints import project_router
+from collaborators.endpoints import collaborator_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -27,3 +28,4 @@ app.add_middleware(
 )
 
 app.include_router(project_router)
+app.include_router(collaborator_router)

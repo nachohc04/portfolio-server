@@ -1,6 +1,7 @@
 fastapi
 uvicorn[standard]
 sqlalchemy
+sqlmodel
 databases
 aiosqlite
 passlib[bcrypt]

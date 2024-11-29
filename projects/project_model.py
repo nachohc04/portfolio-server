@@ -1,5 +1,6 @@
-from sqlmodel import Field, SQLModel
-from typing import Optional
+from sqlmodel import Field, SQLModel, Relationship
+from typing import Optional, List
+from collaborators.collaborators_model import CollaboratorPublic
 
 class ProjectBase(SQLModel):
     name: str = Field(index=True)
@@ -7,23 +8,15 @@ class ProjectBase(SQLModel):
     description: str = Field(index=True)
     image: str = Field(index=True)
     repository: str = Field(index=True)
-    featured: bool = Field(defaul=False, index=True)
-    collaborators: Optional[str] = None
+    featured: bool = Field(default=False, index=True)
 
 class Project(ProjectBase, table=True):  # Mapped to the database table
     id: Optional[int] = Field(default=None, primary_key=True)
+    collaborators: List["Collaborator"] = Relationship(back_populates="project")
 
 class ProjectCreate(ProjectBase):  # For creating projects (input)
     pass
 
 class ProjectPublic(ProjectBase):  # For returning project data (output)
     id: int
-
-class ProjectUpdate(SQLModel):  # To allow updates
-    name: Optional[str] = None
-    description: Optional[str] = None
-    image: Optional[str] = None
-    repository: Optional[str] = None
-    collaborators: Optional[str] = None
-    collaborators: Optional[bool] = None
-
+    collaborators: List[CollaboratorPublic]  # Return collaborators with the project
