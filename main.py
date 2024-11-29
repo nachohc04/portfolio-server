@@ -1,9 +1,13 @@
+# dynamic
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from database.db import create_db_and_tables
 from contextlib import asynccontextmanager
-
+# static
+from fastapi.staticfiles import StaticFiles
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+# routers
 from projects.endpoints import project_router
 from collaborators.endpoints import collaborator_router
 
@@ -27,5 +31,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=["*"]
+)
+
 app.include_router(project_router)
 app.include_router(collaborator_router)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
