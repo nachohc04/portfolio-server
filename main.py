@@ -22,7 +22,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 origins = [
-    "https://portfolio-client-orpin.vercel.app"
+    "*"
 ]
 
 
