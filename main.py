@@ -10,6 +10,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 # routers
 from projects.endpoints import project_router
 from collaborators.endpoints import collaborator_router
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -35,6 +36,7 @@ app.add_middleware(
     TrustedHostMiddleware,
     allowed_hosts=["*"]
 )
+app.add_middleware(HTTPSRedirectMiddleware)
 
 app.include_router(project_router)
 app.include_router(collaborator_router)
