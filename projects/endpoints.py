@@ -24,7 +24,7 @@ async def create_project(
     return project
 
 @project_router.get(
-    "/projects/",
+    "/projects",
     response_model=list[ProjectPublic]
 )
 def get_projects(

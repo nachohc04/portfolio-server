@@ -8,7 +8,7 @@ collaborator_router = APIRouter(
         )
 
 @collaborator_router.post(
-        "/Collaborators",
+        "/collaborators",
         status_code=status.HTTP_201_CREATED,
         response_model=CollaboratorPublic
 )
