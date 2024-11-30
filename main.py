@@ -11,6 +11,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from projects.endpoints import project_router
 from collaborators.endpoints import collaborator_router
 # from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+from fastapi.responses import RedirectResponse
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -21,8 +22,9 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 origins = [
-    "portfolio-client-orpin.vercel.app"
-        ]
+    "https://portfolio-client-orpin.vercel.app"
+]
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -37,6 +39,12 @@ app.add_middleware(
     allowed_hosts=["*"]
 )
 # app.add_middleware(HTTPSRedirectMiddleware)
+@app.middleware("http")
+async def https_redirect_middleware(request, call_next):
+    if request.headers.get("x-forwarded-proto", "http") != "https":
+        url = request.url.replace(scheme="https")
+        return RedirectResponse(url)
+    return await call_next(request)
 
 app.include_router(project_router)
 app.include_router(collaborator_router)
